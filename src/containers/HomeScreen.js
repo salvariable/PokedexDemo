@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { FlatList, View, Text, TouchableOpacity } from 'react-native';
-import PokemonTile from '../components/PokemonTile';
+import React, { useEffect, useState, Fragment } from 'react';
+import { View, Text } from 'react-native';
+import PokemonGrid from '../components/PokemonGrid';
+import { TextInput } from 'react-native-gesture-handler';
 
 export default ({ navigation }) => {
   const [pokemons, setPokemons] = useState([]);
+  const [searchResults, setSearchResults] = useState(null);
 
   useEffect(() => {
     fetch('https://pokeapi.co/api/v2/pokemon?limit=50')
@@ -16,16 +18,24 @@ export default ({ navigation }) => {
       });
   }, []);
 
+  const data = searchResults.length ? searchResults : pokemons;
+
   return (
     <View>
       {pokemons ? (
-        <FlatList
-          data={pokemons}
-          keyExtractor={(item) => item.url}
-          renderItem={({ item }) => <PokemonTile name={item.name} navigation={navigation} />}
-          contentContainerStyle={{ backgroundColor: 'silver' }}
-          numColumns={3}
-        />
+        <Fragment>
+          <TextInput
+            autoCorrect={false}
+            style={{ margin: 16 }}
+            onChangeText={(input) => {
+              const filtered = pokemons.filter((pokemon) =>
+                pokemon.name.includes(input.toLowerCase())
+              );
+              setSearchResults(filtered);
+            }}
+          />
+          <PokemonGrid pokemons={data} navigation={navigation} />
+        </Fragment>
       ) : (
         <Text>No pokemons yet, loading...</Text>
       )}
