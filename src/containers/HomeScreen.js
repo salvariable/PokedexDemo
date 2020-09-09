@@ -2,9 +2,10 @@ import React, { useEffect, useState, Fragment } from 'react';
 import { View, Text } from 'react-native';
 import PokemonGrid from '../components/PokemonGrid';
 import { TextInput } from 'react-native-gesture-handler';
+import { Searchbar } from 'react-native-paper';
 
 export default ({ navigation }) => {
-  const [pokemons, setPokemons] = useState([]);
+  const [pokemons, setPokemons] = useState(null);
   const [searchResults, setSearchResults] = useState(null);
 
   useEffect(() => {
@@ -18,18 +19,20 @@ export default ({ navigation }) => {
       });
   }, []);
 
-  const data = searchResults.length ? searchResults : pokemons;
+  const data = searchResults ? searchResults : pokemons;
 
   return (
     <View>
       {pokemons ? (
         <Fragment>
-          <TextInput
+          <Searchbar
             autoCorrect={false}
             style={{ margin: 16 }}
+            placeholder="Search by name or ID"
             onChangeText={(input) => {
-              const filtered = pokemons.filter((pokemon) =>
-                pokemon.name.includes(input.toLowerCase())
+              const filtered = pokemons.filter(
+                (pokemon) =>
+                  pokemon.name.includes(input.toLowerCase()) || pokemon.url.includes(input)
               );
               setSearchResults(filtered);
             }}

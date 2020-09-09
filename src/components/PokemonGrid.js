@@ -9,7 +9,6 @@ export default ({ pokemons, navigation }) => {
       extraData={pokemons}
       keyExtractor={(item) => item.url}
       renderItem={({ item }) => <PokemonTile name={item.name} navigation={navigation} />}
-      contentContainerStyle={{ backgroundColor: 'silver' }}
       numColumns={3}
     />
   );
