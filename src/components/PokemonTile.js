@@ -23,11 +23,11 @@ export default ({ name, navigation }) => {
         })
       }
     >
-      <View style={{ backgroundColor: 'white' }}>
+      <View style={{ backgroundColor: 'white', margin: 8 }}>
         {specs && (
           <Image
             resizeMode="contain"
-            style={{ height: 100, width: 100 }}
+            style={{ height: 120, width: 120 }}
             source={{
               uri: specs.sprites.front_default,
             }}
