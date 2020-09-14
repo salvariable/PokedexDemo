@@ -32,7 +32,7 @@ export default ({ navigation }) => {
           console.error(error);
         });
     }
-  }, [pokemons]);
+  }, []);
 
   const data = searchResults ? searchResults : pokemons;
 
